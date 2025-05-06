@@ -1,10 +1,10 @@
 <?php
 abstract class Persona{
-    private String $id;
-    private String $nombre;
-    private String $apellido;
-    private String $correo;
-    private String $clave;
+    protected String $id;
+    protected String $nombre;
+    protected String $apellido;
+    protected String $correo;
+    protected String $clave;
 
     
     
