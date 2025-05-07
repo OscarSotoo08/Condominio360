@@ -1,3 +1,8 @@
+<?php 
+
+$correo = $_POST["correo"];
+$clave = md5($_POST["clave"]);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
