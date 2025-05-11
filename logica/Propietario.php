@@ -17,6 +17,7 @@ class Propietario extends Persona implements Usuario{
      * @inheritDoc
      */
     public function autenticarse() {
+        return 0;
     }
 
     /**

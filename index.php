@@ -44,9 +44,6 @@ if(!isset($_GET["pid"])){
 }
 ?>
 <script src="https://kit.fontawesome.com/14596e32cc.js" crossorigin="anonymous"></script>
-</body>
-</html>
-    </div>
-  </div>
+
 </body>
 </html>
