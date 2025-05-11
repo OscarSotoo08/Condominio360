@@ -1,11 +1,4 @@
 <?php
-require_once "logica/Administrador.php";
-require_once "logica/Propietario.php";
-
-# Inicia una sesión si aún no está iniciada
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
 
 # Si ya se inicio sesion
 if(isset($_SESSION["id"]) && isset($_SESSION["tipoUsuario"])){
