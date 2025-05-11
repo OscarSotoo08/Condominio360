@@ -5,10 +5,13 @@ abstract class Persona{
     protected String $apellido;
     protected String $correo;
     protected String $clave;
-
+    protected String $codigoRecuperacion;
+    protected String $fechaExpiracion;
     
     
-    public function __construct($id = "", $nombre = "", $apellido = "", $correo = "", $clave = ""){
+    public function __construct($id = "", $nombre = "", $apellido = "", $correo = "", $clave = "", $codigoRecuperacion = "", $fechaExpiracion = ""){
+        $this->codigoRecuperacion = $codigoRecuperacion;
+        $this->fechaExpiracion = $fechaExpiracion;
         $this->id = $id;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -34,7 +37,12 @@ abstract class Persona{
     public function getClave(){
         return $this->clave;
     }
-
+    public function getCodigo(){
+        return $this -> codigoRecuperacion;
+    }
+    public function getFechaExp(){
+        return $this ->fechaExpiracion;
+    }
     
     
     
@@ -52,5 +60,12 @@ abstract class Persona{
     }
     public function setClave(String $clave){
         $this->clave = $clave;
+    }
+    public function setCodigo(String $codigo){
+        $this->codigoRecuperacion = $codigo;
+    }
+
+    public function setFechaExp(String $fechaExp){
+        $this->fechaExpiracion = $fechaExp;
     }
 }

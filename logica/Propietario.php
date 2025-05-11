@@ -1,8 +1,9 @@
 <?php
+require_once "persistencia/PropietarioDAO.php";
 class Propietario extends Persona implements Usuario{
     private $saldo;
-    public function __construct($id = "", $nombre = "", $apellido = "", $correo = "", $clave = "", $saldo = 0.0){
-        parent::__construct($id, $nombre, $apellido, $correo, $clave);
+    public function __construct($id = "", $nombre = "", $apellido = "", $correo = "", $clave = "", $saldo = 0.0, $codigoRecuperacion = "", $fechaExpiracion = "") {
+        parent::__construct($id, $nombre, $apellido, $correo, $clave, $codigoRecuperacion, $fechaExpiracion);
         $this->saldo = $saldo;
     }
 
@@ -36,5 +37,26 @@ class Propietario extends Persona implements Usuario{
      * @inheritDoc
      */
     public function registro() {
+    }
+
+    public function verificarCorreo() {
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $PDAO = new PropietarioDAO(correo: $this -> correo);
+        $conexion -> ejecutar($PDAO -> verificarCorreo());
+        if(($datos = $conexion -> registro()) != null) {
+            $this -> id = $datos[0];
+        }
+        $conexion -> cerrar();
+    }
+
+    public function guardarCodigo(){
+        
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function verificarCodigo() {
     }
 }
