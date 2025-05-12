@@ -29,4 +29,8 @@ class AdministradorDAO{
     public function verificarCodigo(){
         return "select idAdministrador from Administrador where codigoRecuperacion = '{$this->codigoRecuperacion}' and fechaExpiracion > now()";
     }
+
+    public function cambiarClave(){
+        return "update Administrador set clave = '{$this->clave}' where idAdministrador = '{$this->id}'";
+    }
 }

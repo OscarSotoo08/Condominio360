@@ -1,19 +1,17 @@
 <?php 
 require_once "logica/Mail.php";
 
-$error = null;
+$error = "";
 $respuesta = false;
 $correo = "";
 
 function almacenarCodigo(Administrador | Propietario $persona){
-    $codigo = strtoupper(substr(bin2hex(random_bytes(6)), 0, 6));
+    $codigo = rand(100000, 999999);
     $expira = date("Y-m-d H:i:s", strtotime("+15 minutes")); // 15 min
     $persona -> setCodigo($codigo);
     $persona -> setFechaExp($expira);
     $persona -> guardarCodigo();
-
     $mensaje = "El código de verificación es: $codigo";
-
     $mail = new Mail($persona->getCorreo(), "Recuperar contraseña", $mensaje);
     return $mail->enviar();
   }
@@ -23,22 +21,23 @@ if(isset($_POST["recuperar"])){
   # 1. Captura de datos
   $correo = $_POST["correo"];
 
-  # 2. ¿Usuario (ADMINISTRADOR) valido?
   $persona = new Administrador(correo: $correo);
-  $persona -> verificarCorreo();
-  if(($persona -> getId()) != null){
-    $respuesta = almacenarCodigo($persona);
-    # Usuario (PROPIETARIO) válido?
+$persona->verificarCorreo();
+
+if($persona->getId() != ""){
+  $respuesta = almacenarCodigo($persona);
+  } else {
     $persona = new Propietario(correo: $correo);
-    $persona -> verificarCorreo();
-    if(($persona -> getId()) != null){
+    $persona->verificarCorreo();
+    if($persona->getId() != ""){
       $respuesta = almacenarCodigo($persona);
-    }else{
-      # El correo ingresado no existe
+    } else {
       $error = "El correo ingresado no existe.";
     }
 }
+
 }
+
 
 if(isset($_POST["verificar"])){
   $codigo = md5($_POST["codigo"]);
@@ -47,7 +46,6 @@ if(isset($_POST["verificar"])){
     # El código es correcto
     $_SESSION["id"] = $id;
     header("Location: ?pid=".base64_encode("presentacion/acceso/cambiarClave.php"));
-    exit();
   }else{
     # El código es incorrecto
     $error = "El código ingresado no es correcto.";
@@ -92,9 +90,9 @@ if(isset($_POST["verificar"])){
 </div>
 <?php endif; ?>
 
-
-        <?php if($error) echo "<div class='alert alert-danger text-center' role='alert'>$error</div>"; ?>
-        <?php if($respuesta) echo "<div class='alert alert-success text-center' role='alert'>$respuesta</div>"; ?>        
+        <!-- Mensajes de error y respuesta -->
+        <?php if($error != "") echo "<div class='alert alert-danger text-center' role='alert'>$error</div>"; ?>
+        <?php if($respuesta != "") echo "<div class='alert alert-success text-center' role='alert'>$respuesta</div>"; ?>
         <div class="card border-0 shadow-lg rounded-4">
           <div class="card-body p-4">
             <div class="text-center mb-4">

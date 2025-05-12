@@ -19,7 +19,10 @@ class Conexion{
     public function registro(){
         return $this -> resultado -> fetch_row();
     }
-    
+
+    public function getResultado(){
+        return $this -> resultado;
+    }
 }
 
 

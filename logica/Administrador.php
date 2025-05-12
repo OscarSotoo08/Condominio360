@@ -13,12 +13,24 @@ class Administrador extends Persona implements Usuario{
      * @inheritDoc
      */
     public function cambiarClave() {
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $ADAO = new AdministradorDAO(id: $this -> id, clave: $this -> clave);
+        $conexion -> ejecutar($ADAO -> cambiarClave());
+        if($conexion -> getResultado() === TRUE){
+            $conexion -> cerrar();
+            return true;
+        }else{
+            $conexion -> cerrar();
+            return false;
+        }
     }
 
     /**
      * @inheritDoc
      */
     public function cerrar_sesion() {
+        session_destroy();
     }
 
     /**
