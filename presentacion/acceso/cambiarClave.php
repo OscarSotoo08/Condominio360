@@ -1,13 +1,12 @@
 
-
+<?php
+$persona = null;
+?>
 <body class="bg-info d-flex justify-content-center align-items-center min-vh-100">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-5">
                 <?php
-                    if (session_status() === PHP_SESSION_NONE) {
-                        session_start(); // Asegura que la sesión esté activa
-                    }
                     $error = "";
                     $success = "";
 
@@ -28,7 +27,7 @@
                             $error = "Las claves no coinciden. Intente nuevamente.";
                         } else {
                             $claveHasheada = md5($nuevaClave);
-                            $persona = new Administrador(id: $_SESSION["id"], clave: $claveHasheada);
+                            $persona = ($_SESSION["tipo"] === "administrador") ? new Administrador(id: $_SESSION["id"], clave: $claveHasheada) : new Propietario(id: $_SESSION["id"], clave: $claveHasheada);
                             if ($persona->cambiarClave()) {
                                 $success = "Clave cambiada exitosamente. <a href='?pid=" . base64_encode("presentacion/acceso/autenticarse.php") . "'>Iniciar sesión</a>";
                                 session_destroy(); // Se cierra la sesión después del cambio

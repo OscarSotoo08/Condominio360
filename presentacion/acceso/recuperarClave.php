@@ -12,10 +12,18 @@ function almacenarCodigo(Administrador | Propietario $persona){
     $persona -> setFechaExp($expira);
     $persona -> guardarCodigo();
     $mensaje = "El código de verificación es: $codigo";
+    echo $persona->getCorreo();
+    echo $mensaje;
     $mail = new Mail($persona->getCorreo(), "Recuperar contraseña", $mensaje);
-    return $mail->enviar();
+    // return $mail->enviar();
+    return true;
   }
 
+function redirigir($id, $tipo){
+  $_SESSION["id"] = $id;
+  $_SESSION["tipo"] = $tipo;
+  header("Location: ?pid=".base64_encode("presentacion/acceso/cambiarClave.php"));
+}
 
 if(isset($_POST["recuperar"])){
   # 1. Captura de datos
@@ -40,16 +48,18 @@ if($persona->getId() != ""){
 
 
 if(isset($_POST["verificar"])){
-  $codigo = md5($_POST["codigo"]);
-  $persona = new Administrador(correo: $correo, codigoRecuperacion: $codigo);
+  $codigo = md5(trim($_POST["codigo"]));
+  $persona = new Administrador(codigoRecuperacion: $codigo);
   if(($id = $persona -> verificarCodigo()) != null){
-    # El código es correcto
-    $_SESSION["id"] = $id;
-    header("Location: ?pid=".base64_encode("presentacion/acceso/cambiarClave.php"));
-  }else{
-    # El código es incorrecto
-    $error = "El código ingresado no es correcto.";
-    $respuesta = false;
+    redirigir($id, "administrador");
+  } else{
+    $persona = new Propietario(codigoRecuperacion: $codigo);
+    if(($id = $persona -> verificarCodigo()) != null){
+      redirigir($id, "propietario");
+    } else{
+      $respuesta = false;
+      $error = "El código ingresado no es válido.";
+    }
   }
 }
 
@@ -92,7 +102,6 @@ if(isset($_POST["verificar"])){
 
         <!-- Mensajes de error y respuesta -->
         <?php if($error != "") echo "<div class='alert alert-danger text-center' role='alert'>$error</div>"; ?>
-        <?php if($respuesta != "") echo "<div class='alert alert-success text-center' role='alert'>$respuesta</div>"; ?>
         <div class="card border-0 shadow-lg rounded-4">
           <div class="card-body p-4">
             <div class="text-center mb-4">

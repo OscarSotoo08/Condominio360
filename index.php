@@ -11,6 +11,7 @@ if(isset($_GET["cerrarSesion"])){
 $paginasSinSesion = [
     "presentacion/acceso/recuperarClave.php",
     "presentacion/acceso/registro.php",
+    "presentacion/acceso/autenticarse.php",
 ];
 
 $paginasConSesion = [

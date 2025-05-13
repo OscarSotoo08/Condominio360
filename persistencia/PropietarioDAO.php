@@ -21,5 +21,18 @@ class PropietarioDAO{
     public function verificarCorreo(){
         return "select idPropietario from Propietario where correo = '{$this->correo}'";
     }
+
+    
+    public function guardarCodigo(){
+        return "update Propietario set codigoRecuperacion = '{$this->codigoRecuperacion}', fechaExpiracion = '{$this->fechaExpiracion}' where correo = '{$this->correo}'";
+    }
+
+    public function verificarCodigo(){
+        return "select idPropietario from Propietario where codigoRecuperacion = '{$this->codigoRecuperacion}' and fechaExpiracion > now()";
+    }
+
+    public function cambiarClave(){
+        return "update Propietario set clave = '{$this->clave}' where idPropietario = '{$this->id}'";
+    }
     
 }

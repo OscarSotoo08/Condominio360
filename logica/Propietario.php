@@ -25,12 +25,24 @@ class Propietario extends Persona implements Usuario{
      * @inheritDoc
      */
     public function cambiarClave() {
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $PDAO = new PropietarioDAO(id: $this -> id, clave: $this -> clave);
+        $conexion -> ejecutar($PDAO -> cambiarClave());
+        if($conexion -> getResultado() === TRUE){
+            $conexion -> cerrar();
+            return true;
+        }else{
+            $conexion -> cerrar();
+            return false;
+        }
     }
 
     /**
      * @inheritDoc
      */
     public function cerrar_sesion() {
+        session_destroy();
     }
 
     /**
@@ -51,12 +63,27 @@ class Propietario extends Persona implements Usuario{
     }
 
     public function guardarCodigo(){
-        
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $PDAO = new PropietarioDAO(correo: $this -> correo, codigoRecuperacion: md5($this -> codigoRecuperacion), fechaExpiracion: $this -> fechaExpiracion);
+        $conexion -> ejecutar($PDAO -> guardarCodigo());
+        $conexion -> cerrar();  
     }
 
     /**
      * @inheritDoc
      */
     public function verificarCodigo() {
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $PDAO = new PropietarioDAO(codigoRecuperacion: $this -> codigoRecuperacion);
+        $conexion -> ejecutar($PDAO -> verificarCodigo());
+        if(($datos = $conexion -> registro()) != null) {
+            $conexion -> cerrar();
+            return $datos[0];
+        }else {
+            $conexion -> cerrar();
+            return null;
+        }
     }
 }

@@ -76,7 +76,7 @@ class Administrador extends Persona implements Usuario{
     public function verificarCodigo() {
         $conexion = new Conexion();
         $conexion -> abrir();
-        $ADAO = new AdministradorDAO(correo: $this -> correo, codigoRecuperacion: $this -> codigoRecuperacion);
+        $ADAO = new AdministradorDAO(codigoRecuperacion: $this -> codigoRecuperacion);
         $conexion -> ejecutar($ADAO -> verificarCodigo());
         if(($datos = $conexion -> registro()) != null) {
             $conexion -> cerrar();
