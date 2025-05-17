@@ -9,6 +9,7 @@ if(!isset($_SESSION["rol"]) || $_SESSION["rol"] !== "propietario"){
 <body>
 <?php 
 include ("presentacion/sesiones/encabezado.php");
+include ("presentacion/sesiones/menuPropietario.php");
 ?>
-</body>git remote -v
+</body>
 
