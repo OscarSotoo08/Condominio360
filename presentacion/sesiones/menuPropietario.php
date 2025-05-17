@@ -42,7 +42,7 @@ $propietario->consultar();
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end">
 							<li><a class="dropdown-item" href="#">Editar Perfil</a></li>
-							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/autenticar.php") ?>&sesion=false">Cerrar Sesión</a></li>
+							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/acceso/autenticarse.php") ?>&sesion=false">Cerrar Sesión</a></li>
 						</ul>
 					</li>
 				</ul>
