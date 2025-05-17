@@ -1,42 +1,30 @@
-<?php
-require_once "logica/Administrador.php";
-require_once "logica/Propietario.php";
-
-# Inicia una sesión si aún no está iniciada
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
-
-# Si ya se inicio sesion
-if(isset($_SESSION["id"]) && isset($_SESSION["tipoUsuario"])){
-  # redirigir
-}
-
-if (isset($_POST["ingresar"])) {
-    $correo = $_POST["correo"];
-    $clave = $_POST["clave"]; // No encriptes aquí, hazlo en la clase
-    $tiposUsuarios = ["Administrador", "Propietario"];
-
-    if (!procesarLogin($tiposUsuarios, $correo, $clave)) {
-        $error = "Correo o contraseña incorrectos";
-        // Muestra mensaje o redirige con error
+<?php 
+if(isset($_GET["sesion"])){
+    if($_GET["sesion"] == "false"){
+        session_destroy();
     }
 }
+$error=false;
 
-
-function procesarLogin(array $clasesUsuario, string $correo, string $clave): bool {
-  foreach ($clasesUsuario as $clase) {
-      $usuario = new $clase(correo: $correo, clave: $clave);
-      if ($usuario->autenticarse()) {
-          $_SESSION["id"] = $usuario->getId();
-          $_SESSION["tipoUsuario"] = $usuario->getTipo();
-          header("Location: " . $usuario->getRedireccion());
-          exit();
-      }
-  }
-  return false;
-}
-
+if(isset($_POST["ingresar"])){
+    $correo = $_POST["correo"];
+    $clave = $_POST["clave"];
+    $administrador = new Administrador("", "", "", $correo, $clave);
+    if($administrador -> autenticarse()){
+        $_SESSION["id"] = $administrador -> getId();
+        $_SESSION["rol"] = "administrador";
+        header("Location: ?pid=" . base64_encode("presentacion/sesiones/sesionAdministrador.php"));
+    }else {
+        $propietario = new Propietario("", "", "", $correo, $clave);
+        if($propietario -> autenticarse()){
+            $_SESSION["id"] = $propietario -> getId();
+            $_SESSION["rol"] = "propietario";
+            header("Location: ?pid=" . base64_encode("presentacion/sesiones/sesionPropietario.php"));
+            }else{
+                $error=true;
+            }
+        }
+    }
 
 ?>
 
@@ -71,7 +59,7 @@ function procesarLogin(array $clasesUsuario, string $correo, string $clave): boo
       <div class="col-md-6 d-flex justify-content-center align-items-center">
         <div class="w-75 p-5 border rounded-3 border-primary" style="outline: 3px solid #007bff;">
           <h4 class="text-center mb-4">Iniciar Sesión</h4>
-          <form action="index.php" method="POST">
+          <form action="?pid=<?php echo base64_encode("presentacion/acceso/autenticarse.php") ?>" method="POST">
             <div class="mb-4">
               <input type="email" class="form-control" name="correo" placeholder="Correo electrónico" required>
             </div>
@@ -79,8 +67,15 @@ function procesarLogin(array $clasesUsuario, string $correo, string $clave): boo
               <input type="password" class="form-control" name="clave" placeholder="Contraseña" required>
             </div>
             <button type="submit" name="ingresar" class="btn btn-primary w-100">Ingresar</button>
-            <p class="text-center mt-3"><a href="?pid=<?php echo base64_encode("presentacion/acceso/recuperarClave.php")?>">¿Olvidaste tu contraseña?</a></p>
+            <p class="text-center mt-3">
+              <a href="?pid=<?php echo base64_encode("presentacion/acceso/recuperarClave.php") ?>">¿Olvidaste tu contraseña?</a>
+            </p>
           </form>
+          <?php 
+          if ($error) {
+              echo "<div class='alert alert-danger mt-3' role='alert'>Correo o contraseña incorrectos</div>";
+          }
+          ?>
         </div>
       </div>
 
