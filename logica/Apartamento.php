@@ -16,7 +16,7 @@ class Apartamento{
     public function getIdApartamento(){
         return $this->idApartamento;
     }
-    public function getNumeroId(){
+    public function getNumeroIdentificador(){
         return $this->numero_identificador;
     }
     public function getPiso(){
@@ -45,5 +45,26 @@ class Apartamento{
     public function setPropietario( $propietario){
         $this->propietario = $propietario;
     }
+    public static function consultarPorPropietario($idPropietario) {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "SELECT idApartamento, numero_identificador, torre, piso 
+                FROM apartamento 
+                WHERE idPropietarioFK = '$idPropietario'";
+        $conexion->ejecutar($sql);
 
+        $apartamentos = [];
+        while ($registro = $conexion->registro()) {
+            $apartamento = new Apartamento(
+                $registro[0],  // idApartamento
+                $registro[1],  // numero_identificador
+                $registro[2],  // torre
+                $registro[3]   // piso
+            );
+            $apartamentos[] = $apartamento;
+        }
+
+        $conexion->cerrar();
+        return $apartamentos;
+    }
 }

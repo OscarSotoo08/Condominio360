@@ -6,7 +6,7 @@ $propietario->consultar();
 <div class="container">
 	<nav class="navbar navbar-expand-lg" style="background-color: #0dcbf1;">
 		<div class="container">
-			<a class="navbar-brand text-dark" href="?pid=<?php echo base64_encode("presentacion/sesionPropietario.php") ?>">
+			<a class="navbar-brand text-dark" href="?pid=<?php echo base64_encode("presentacion/sesiones/sesionPropietario.php") ?>">
 				<i class="fa-solid fa-house"></i>
 			</a>
 			<button class="navbar-toggler" type="button"
@@ -19,7 +19,7 @@ $propietario->consultar();
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link text-dark active" href="?pid=<?php echo base64_encode("presentacion/sesionPropietario.php") ?>">Inicio</a>
+						<a class="nav-link text-dark active" href="?pid=<?php echo base64_encode("presentacion/sesiones/sesionPropietario.php") ?>">Inicio</a>
 					</li>
 
 					<li class="nav-item">

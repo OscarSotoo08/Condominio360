@@ -6,7 +6,7 @@ $admin->consultar();
 <div class="container">
 	<nav class="navbar navbar-expand-lg" style="background-color: #0dcbf1;">
 		<div class="container">
-			<a class="navbar-brand text-dark" href="?pid=<?php echo base64_encode("presentacion/sesionAdmin.php") ?>">
+			<a class="navbar-brand text-dark" href="?pid=<?php echo base64_encode("presentacion/sesiones/sesionAdministrador.php") ?>">
 				<i class="fa-solid fa-house"></i>
 			</a>
 			<button class="navbar-toggler" type="button"
@@ -19,7 +19,7 @@ $admin->consultar();
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link text-dark active" href="?pid=<?php echo base64_encode("presentacion/sesionAdmin.php") ?>">Inicio</a>
+						<a class="nav-link text-dark active" href="?pid=<?php echo base64_encode("presentacion/sesiones/sesionAdministrador.php") ?>">Inicio</a>
 					</li>
 
 					<li class="nav-item dropdown">
@@ -27,18 +27,8 @@ $admin->consultar();
 							Propietarios
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/propietario/consultarPropietario.php") ?>">Consultar</a></li>
+							<li><a class="dropdown-item" href="?pid=<?= base64_encode("presentacion/sesiones/consultarPropietario.php") ?>">Consultar</a></li>
 							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/propietario/crearPropietario.php") ?>">Crear</a></li>
-						</ul>
-					</li>
-
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Apartamentos
-						</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/apartamento/consultarApartamento.php") ?>">Consultar</a></li>
-							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/apartamento/crearApartamento.php") ?>">Crear</a></li>
 						</ul>
 					</li>
 

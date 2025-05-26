@@ -24,10 +24,16 @@ class PropietarioDAO{
                 where correo = '" . $this -> correo . "' and clave = '" . $this -> clave . "'";
     }
     
-    public function consultar(){
-        return "select nombre, apellido, correo
-                from Propietario
-                where idPropietario = '" . $this -> id . "'";
+    public function consultar() {
+        return "SELECT nombre, apellido, correo FROM Propietario WHERE idPropietario = '{$this->id}'";
+    }
+
+    public function consultarTodosConApartamentos() {
+    return "SELECT p.id, p.nombre, p.apellido, p.correo, p.saldo,
+                   a.torre, a.piso, a.numeroIdentificador
+            FROM propietario p
+            LEFT JOIN apartamento a ON p.id = a.propietario_id
+            ORDER BY p.apellido, p.nombre";
     }
 
     public function verificarCorreo(){

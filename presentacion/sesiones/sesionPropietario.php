@@ -10,6 +10,7 @@ if(!isset($_SESSION["rol"]) || $_SESSION["rol"] !== "propietario"){
 <?php 
 include ("presentacion/sesiones/encabezado.php");
 include ("presentacion/sesiones/menuPropietario.php");
+include ("presentacion/sesiones/Ficha.php");
 ?>
 </body>
 
