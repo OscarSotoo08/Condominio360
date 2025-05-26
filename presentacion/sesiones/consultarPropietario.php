@@ -14,8 +14,6 @@ $listaPropietarios = $propietarioDAO->consultarProp();
 ?>
 
 <div class="container mt-4">
-  <h3 class="mb-4">Consulta de Propietarios</h3>
-
   <?php if (empty($listaPropietarios)): ?>
     <div class="alert alert-warning">No se encontraron propietarios registrados.</div>
   <?php else: ?>

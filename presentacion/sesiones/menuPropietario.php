@@ -23,7 +23,7 @@ $propietario->consultar();
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link text-dark" href="?pid=<?php echo base64_encode("presentacion/apartamento/misApartamentos.php") ?>">Mis Apartamentos</a>
+						<a class="nav-link text-dark" href="?pid=<?php echo base64_encode("presentacion/sesiones/misApartamentos.php") ?>">Mis Apartamentos</a>
 					</li>
 
 					<li class="nav-item">
