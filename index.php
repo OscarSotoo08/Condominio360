@@ -17,6 +17,7 @@ $paginasSinSesion = [
 $paginasConSesion = [
     "presentacion/sesiones/sesionAdministrador.php",
     "presentacion/sesiones/sesionPropietario.php",
+    "presentacion/sesiones/consultarPropietario.php",
     "presentacion/acceso/cambiarClave.php",
 ];
 
