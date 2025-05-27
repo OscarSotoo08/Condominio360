@@ -4,6 +4,7 @@ require_once "logica/Usuario.php";
 require_once "persistencia/AdministradorDAO.php";
 require_once "persistencia/Conexion.php";
 
+
 class Administrador extends Persona implements Usuario{
     public function __construct($id = "", $nombre = "", $apellido = "", $correo = "", $clave = "", $codigoRecuperacion = "", $fechaExpiracion = "") {
         parent::__construct($id, $nombre, $apellido, $correo, $clave, $codigoRecuperacion, $fechaExpiracion);
@@ -30,6 +31,7 @@ class Administrador extends Persona implements Usuario{
      * @inheritDoc
      */
     public function cerrar_sesion() {
+        session_destroy();
         session_destroy();
     }
 
