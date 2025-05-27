@@ -1,10 +1,16 @@
 <?php
-if($_SESSION["rol"] != "Propietario") header("Location: ?pid=". base64_encode("presentacion/sinPermisos.php"));
+if(session_status() === PHP_SESSION_NONE) session_start();
 
-$id = $_SESSION["id"];
-$propietario = new Propietario(id: $id);
-$propietario->consultar();
+if(!isset($_SESSION["rol"]) || $_SESSION["rol"] !== "propietario"){
+    header("Location: ?pid=" . base64_encode("presentacion/sesiones/noAutorizado.php"));
+    exit();
+}
+?>
+<body>
+<?php 
+include ("presentacion/sesiones/encabezado.php");
+include ("presentacion/sesiones/menuPropietario.php");
+include ("presentacion/sesiones/Ficha.php");
+?>
+</body>
 
-echo "<h1>Hola {$propietario->getNombre()} {$propietario->getApellido()}</h1>";
-echo "<h2>Correo: {$propietario->getCorreo()}</h2>";
-echo "<h2>Saldo: {$propietario->getSaldo()}</h2>";

@@ -1,22 +1,29 @@
 <?php
 require_once "persistencia/PropietarioDAO.php";
-class Propietario extends Persona implements Usuario{
+
+class Propietario extends Persona implements Usuario {
     private $saldo;
     public function __construct($id = "", $nombre = "", $apellido = "", $correo = "", $clave = "", $saldo = 0.0, $codigoRecuperacion = "", $fechaExpiracion = "") {
         parent::__construct($id, $nombre, $apellido, $correo, $clave, $codigoRecuperacion, $fechaExpiracion);
         $this->saldo = $saldo;
     }
 
-    public function getSaldo(){
+    public function getSaldo() {
         return $this->saldo;
     }
-    public function setSaldo($saldo){
+
+    public function setSaldo($saldo) {
         $this->saldo = $saldo;
     }
 
-    /**
-     * @inheritDoc
-     */
+    public function getApartamentos() {
+        return $this->apartamentos;
+    }
+
+    public function setApartamentos(array $apartamentos) {
+        $this->apartamentos = $apartamentos;
+    }
+
     public function autenticarse() {
         $conexion = new Conexion();
         $conexion -> abrir();
@@ -56,10 +63,8 @@ class Propietario extends Persona implements Usuario{
         session_destroy();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function registro() {
+        // No implementado aún
     }
 
     public function verificarCorreo() {

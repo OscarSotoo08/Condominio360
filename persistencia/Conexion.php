@@ -23,6 +23,9 @@ class Conexion{
     public function getResultado(){
         return $this -> resultado;
     }
-}
 
+    public function filas(){
+        return $this->resultado->num_rows;
+    }
+}
 
