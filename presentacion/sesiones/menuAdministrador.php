@@ -61,5 +61,3 @@ $admin->consultar();
 		</div>
 	</nav>
 </div>
-
-

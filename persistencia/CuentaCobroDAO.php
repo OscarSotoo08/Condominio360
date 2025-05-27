@@ -20,6 +20,31 @@ class CuentaCobroDAO {
         $this->idAdmin = $idAdmin;
     }
 
+    public function insertarCuenta($conexion) {
+        $conexion->ejecutar("SELECT MAX(idCuentaCobro) FROM cuentacobro");
+        $fila = $conexion->registro();
+        $nuevoID = ($fila[0] !== null) ? $fila[0] + 1 : 1;
+
+        $this->idCuentaCobro = $nuevoID;
+
+        $sql = "INSERT INTO cuentacobro 
+                (idCuentaCobro, idApartamentoFK, idAdministradorFK, idConceptoFK, monto, fechaGeneracion, fechaVencimiento, estadoPago)
+                VALUES (
+                    '{$this->idCuentaCobro}', 
+                    '{$this->idApartamento}', 
+                    '{$this->idAdmin}', 
+                    '{$this->idConcepto}', 
+                    '{$this->monto}', 
+                    '{$this->fechaGeneracion}', 
+                    '{$this->fechaVencimiento}', 
+                    '{$this->estadoPago}'
+                )";
+
+        $conexion->ejecutar($sql);
+
+        return $conexion->getResultado() !== false;
+    }
+
     public function consultarPorPropietario($idPropietario) {
         $idPropietario = intval($idPropietario);
 
@@ -63,23 +88,6 @@ class CuentaCobroDAO {
     ";
 }
 
-
-    public function insertarCuenta($conexion) {
-        $sql = "INSERT INTO cuentacobro 
-            (idCuentaCobro, idApartamentoFK, idAdministradorFK, idConceptoFK, monto, fechaGeneracion, fechaVencimiento, estadoPago)
-            VALUES (
-                '{$this->idCuentaCobro}', 
-                '{$this->idApartamento}', 
-                '{$this->idAdmin}', 
-                '{$this->idConcepto}', 
-                '{$this->monto}', 
-                '{$this->fechaGeneracion}', 
-                '{$this->fechaVencimiento}', 
-                '{$this->estadoPago}'
-            )";
-        return $conexion->query($sql);
-    }
-
     public function cambiarEstado($idCuentaCobro, $nuevoEstado) {
         $idCuentaCobro = intval($idCuentaCobro);
         $nuevoEstado = intval($nuevoEstado);
@@ -92,5 +100,3 @@ class CuentaCobroDAO {
     }
 }
 ?>
-
-

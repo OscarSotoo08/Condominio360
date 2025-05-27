@@ -20,6 +20,7 @@ $paginasConSesion = [
     "presentacion/sesiones/consultarPropietario.php",
     "presentacion/sesiones/misApartamentos.php",
     "presentacion/sesiones/consultarCuenta.php",
+    "presentacion/sesiones/crearCuenta.php",
     "presentacion/acceso/cambiarClave.php",
 ];
 
