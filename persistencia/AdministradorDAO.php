@@ -33,4 +33,12 @@ class AdministradorDAO{
     public function cambiarClave(){
         return "update Administrador set clave = '{$this->clave}' where idAdministrador = '{$this->id}'";
     }
+
+    public function autenticarse(){
+        return "select idAdministrador from Administrador where correo = '{$this->correo}' and clave = '{$this->clave}'";
+    }
+
+    public function consultar(){
+        return "select nombre, apellido, correo from Administrador where idAdministrador = '{$this->id}'";
+    }
 }

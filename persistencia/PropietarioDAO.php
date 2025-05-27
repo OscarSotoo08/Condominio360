@@ -34,5 +34,12 @@ class PropietarioDAO{
     public function cambiarClave(){
         return "update Propietario set clave = '{$this->clave}' where idPropietario = '{$this->id}'";
     }
-    
+ 
+    public function autenticarse(){
+        return "select idPropietario from Propietario where correo = '{$this->correo}' and clave = '{$this->clave}'";
+    }
+
+    public function consultar(){
+        return "select nombre, apellido, correo, saldo from Propietario where idPropietario = '{$this->id}'";
+    }
 }

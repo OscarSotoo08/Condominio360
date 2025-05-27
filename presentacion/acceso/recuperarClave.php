@@ -30,7 +30,7 @@ if(isset($_POST["recuperar"])){
   $correo = $_POST["correo"];
 
   $persona = new Administrador(correo: $correo);
-$persona->verificarCorreo();
+  $persona->verificarCorreo();
 
 if($persona->getId() != ""){
   $respuesta = almacenarCodigo($persona);

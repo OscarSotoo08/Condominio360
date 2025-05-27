@@ -18,7 +18,18 @@ class Propietario extends Persona implements Usuario{
      * @inheritDoc
      */
     public function autenticarse() {
-        return 0;
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $PDAO = new PropietarioDAO(correo: $this -> correo, clave: $this -> clave);
+        $conexion -> ejecutar($PDAO -> autenticarse());
+        if(($datos = $conexion -> registro()) != null) {
+            $this -> id = $datos[0];
+            $conexion -> cerrar();
+            return true;
+        }else{
+            $conexion -> cerrar();
+            return false;
+        }
     }
 
     /**
@@ -84,6 +95,24 @@ class Propietario extends Persona implements Usuario{
         }else {
             $conexion -> cerrar();
             return null;
+        }
+    }
+
+    public function consultar() {
+        $conexion = new Conexion();
+        $conexion -> abrir();
+        $PDAO = new PropietarioDAO(id: $this -> id);
+        $conexion -> ejecutar($PDAO -> consultar());
+        if(($datos = $conexion -> registro()) != null) {
+            $this -> nombre = $datos[0];
+            $this -> apellido = $datos[1];
+            $this -> correo = $datos[2];
+            $this -> saldo = $datos[3];
+            $conexion -> cerrar();
+            return true;
+        }else{
+            $conexion -> cerrar();
+            return false;
         }
     }
 }

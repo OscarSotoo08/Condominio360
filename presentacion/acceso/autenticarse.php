@@ -1,17 +1,27 @@
 <?php
 
+$error = "";
+
 # Si ya se inicio sesion
-if(isset($_SESSION["id"]) && isset($_SESSION["tipoUsuario"])){
-  # redirigir
+if(isset($_SESSION["id"]) && isset($_SESSION["rol"])){
+  switch ($_SESSION["rol"]) {
+    case "Administrador":
+      header("Location: ?pid=" . base64_encode("presentacion/sesiones/sesionAdministrador.php"));
+      break;
+    case "Propietario":
+      header("Location: ?pid=" . base64_encode("presentacion/sesiones/sesionPropietario.php"));
+      break;
+  }
+    exit();  
 }
 
 if (isset($_POST["ingresar"])) {
     $correo = $_POST["correo"];
-    $clave = $_POST["clave"]; // No encriptes aquí, hazlo en la clase
+    $clave = md5($_POST["clave"]);
     $tiposUsuarios = ["Administrador", "Propietario"];
 
     if (!procesarLogin($tiposUsuarios, $correo, $clave)) {
-        $error = "Correo o contraseña incorrectos";
+        $error = "Correo o contraseña incorrectos ";
         // Muestra mensaje o redirige con error
     }
 }
@@ -22,8 +32,12 @@ function procesarLogin(array $clasesUsuario, string $correo, string $clave): boo
       $usuario = new $clase(correo: $correo, clave: $clave);
       if ($usuario->autenticarse()) {
           $_SESSION["id"] = $usuario->getId();
-          $_SESSION["tipoUsuario"] = $usuario->getTipo();
-          header("Location: " . $usuario->getRedireccion());
+          $_SESSION["rol"] = $clase;
+          if($_SESSION["rol"] == "Administrador"){
+            header("Location: ?pid=".base64_encode("presentacion/sesiones/sesionAdministrador.php"));
+          }else{
+            header("Location: ?pid=".base64_encode("presentacion/sesiones/sesionPropietario.php"));
+          }
           exit();
       }
   }
