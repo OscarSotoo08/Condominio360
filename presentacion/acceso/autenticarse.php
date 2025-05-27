@@ -22,23 +22,32 @@ $error=false;
 
 if(isset($_POST["ingresar"])){
     $correo = $_POST["correo"];
-    $clave = $_POST["clave"];
-    $administrador = new Administrador(correo: $correo, clave: md5($clave));
-    if($administrador -> autenticarse()){
-        $_SESSION["id"] = $administrador -> getId();
-        $_SESSION["rol"] = "administrador";
-        header("Location: ?pid=" . base64_encode("presentacion/sesiones/sesionAdministrador.php"));
-    }else {
-        $propietario = new Propietario("", "", "", $correo, $clave);
-        if($propietario -> autenticarse()){
-            $_SESSION["id"] = $propietario -> getId();
-            $_SESSION["rol"] = "propietario";
-            header("Location: ?pid=" . base64_encode("presentacion/sesiones/sesionPropietario.php"));
-            }else{
-                $error=true;
-            }
-        }
+    $clave = md5($_POST["clave"]);
+    $tiposUsuarios = ["Administrador", "Propietario"];
+
+    if (!procesarLogin($tiposUsuarios, $correo, $clave)) {
+        $error = "Correo o contraseña incorrectos ";
+        // Muestra mensaje o redirige con error
     }
+}
+
+
+function procesarLogin(array $clasesUsuario, string $correo, string $clave): bool {
+  foreach ($clasesUsuario as $clase) {
+      $usuario = new $clase(correo: $correo, clave: $clave);
+      if ($usuario->autenticarse()) {
+          $_SESSION["id"] = $usuario->getId();
+          $_SESSION["rol"] = $clase;
+          if($_SESSION["rol"] == "Administrador"){
+            header("Location: ?pid=".base64_encode("presentacion/sesiones/sesionAdministrador.php"));
+          }else{
+            header("Location: ?pid=".base64_encode("presentacion/sesiones/sesionPropietario.php"));
+          }
+          exit();
+      }
+  }
+  return false;
+}
 
 ?>
 
@@ -54,7 +63,7 @@ if(isset($_POST["ingresar"])){
 </head>
 <body class="bg-info">
 
-  <div class="container-fluid">
+  <div class="container-fluid">w
     <div class="row w-100 vh-100">
       
       <div class="col-md-6 d-flex align-items-center">
@@ -74,6 +83,7 @@ if(isset($_POST["ingresar"])){
         <div class="w-75 p-5 border rounded-3 border-primary" style="outline: 3px solid #007bff;">
           <h4 class="text-center mb-4">Iniciar Sesión</h4>
           <form action="?pid=<?php echo base64_encode("presentacion/acceso/autenticarse.php") ?>" method="POST">
+          <form action="?pid=<?php echo base64_encode("presentacion/acceso/autenticarse.php") ?>" method="POST">
             <div class="mb-4">
               <input type="email" class="form-control" name="correo" placeholder="Correo electrónico" required>
             </div>
@@ -84,7 +94,15 @@ if(isset($_POST["ingresar"])){
             <p class="text-center mt-3">
               <a href="?pid=<?php echo base64_encode("presentacion/acceso/recuperarClave.php") ?>">¿Olvidaste tu contraseña?</a>
             </p>
+            <p class="text-center mt-3">
+              <a href="?pid=<?php echo base64_encode("presentacion/acceso/recuperarClave.php") ?>">¿Olvidaste tu contraseña?</a>
+            </p>
           </form>
+          <?php 
+          if ($error) {
+              echo "<div class='alert alert-danger mt-3' role='alert'>Correo o contraseña incorrectos</div>";
+          }
+          ?>
           <?php 
           if ($error) {
               echo "<div class='alert alert-danger mt-3' role='alert'>Correo o contraseña incorrectos</div>";

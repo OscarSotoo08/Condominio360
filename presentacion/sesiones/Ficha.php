@@ -59,12 +59,7 @@ $usuario->consultar();
                 <?php endif; ?>
               </div>
             </div>
-            <div class="row border-bottom mb-2">
-            <div class="col-5 col-sm-4 font-weight-bold">Saldo:</div>
-            <div class="col-7 col-sm-8"><?= htmlspecialchars($usuario->getSaldo()) ?></div>
-          </div>
           <?php endif; ?>
-          
         </div>
       </div>
     </div>

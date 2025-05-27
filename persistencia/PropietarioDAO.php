@@ -28,7 +28,7 @@ class PropietarioDAO{
         return "SELECT nombre, apellido, correo FROM Propietario WHERE idPropietario = '{$this->id}'";
     }
 
-     public function consultarProp() {
+    public function consultarProp() {
         $lista = [];
         $conexion = new Conexion();
         $conexion->abrir();
@@ -85,4 +85,6 @@ class PropietarioDAO{
     }
     
 }
+    
+
 

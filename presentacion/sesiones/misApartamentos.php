@@ -25,7 +25,7 @@ $apartamentos = $propietario->getApartamentos();
           <h5 class="mb-0">Mis apartamentos</h5>
         </div>
         <div class="card-body p-0">
-          <?php if (empty($apartamentos)): ?>
+          <?php if (empty($apartamentos)): ?> 
             <div class="alert alert-warning m-3">No tienes apartamentos registrados.</div>
           <?php else: ?>
             <table class="table mb-0 table-bordered">
