@@ -36,8 +36,8 @@ $admin->consultar();
 							Cuentas de Cobro
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/cuentaCobro/consultarCuenta.php") ?>">Consultar</a></li>
-							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/cuentaCobro/crearCuenta.php") ?>">Crear</a></li>
+							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/sesiones/consultarCuenta.php") ?>">Consultar</a></li>
+							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/sesiones/crearCuenta.php") ?>">Crear</a></li>
 						</ul>
 					</li>
 

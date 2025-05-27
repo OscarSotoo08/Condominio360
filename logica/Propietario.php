@@ -57,7 +57,7 @@ class Propietario extends Persona implements Usuario {
         $conexion->cerrar();
     }
 
-    public static function obtenerTodosConApartamentos($conexion) {
+        public static function obtenerTodosConApartamentos($conexion) {
     $dao = new PropietarioDAO();
     $sql = $dao->consultarTodosConApartamentos();
     $resultado = $conexion->ejecutar($sql);
@@ -89,6 +89,22 @@ class Propietario extends Persona implements Usuario {
 
     return $propietarios;
 }
+
+public function obtenerCuentasCobro() {
+    $conexion = new Conexion();
+    $conexion->abrir();
+    $dao = new CuentaCobroDAO($this->id, "", "", "", "", "", $conexion);
+    $sql = $dao->consultarPorPropietario($this->id);
+    $conexion->ejecutar($sql);
+    $cuentas = [];
+    while ($fila = $conexion->registro()) {
+        $cuentas[] = $fila;
+    }
+    $conexion->cerrar();
+    return $cuentas;
+}
+
+
 public function cambiarClave() {
         $conexion = new Conexion();
         $conexion->abrir();
