@@ -57,39 +57,60 @@ class Propietario extends Persona implements Usuario {
         $conexion->cerrar();
     }
 
-    public static function obtenerTodosConApartamentos($conexion) {
-    $dao = new PropietarioDAO();
-    $sql = $dao->consultarTodosConApartamentos();
-    $resultado = $conexion->ejecutar($sql);
+    public function consultarApartamentos() {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $dao = new PropietarioDAO(id: $this->id);
+        $resultado = $conexion->ejecutar($dao->consultarApartamentos());
 
-    $propietarios = [];
+        $apartamentos = [];
 
-    while ($registro = $resultado->fetch_assoc()) {
-        $id = $registro['id'];
-
-        if (!isset($propietarios[$id])) {
-            $propietarios[$id] = [
-                'id' => $id,
-                'nombre' => $registro['nombre'],
-                'apellido' => $registro['apellido'],
-                'correo' => $registro['correo'],
-                'saldo' => $registro['saldo'],
-                'apartamentos' => []
-            ];
+        while ($registro = $conexion->registro()) {
+            $apartamento = new Apartamento(
+                idApartamento: $registro[0],
+                numero_identificador: $registro[1],
+                torre: $registro[2],
+                piso: $registro[3],
+                propietario: $this
+            );
+            array_push($apartamentos, $apartamento);
         }
 
-        if ($registro['torre'] !== null) {
-            $propietarios[$id]['apartamentos'][] = [
-                'torre' => $registro['torre'],
-                'piso' => $registro['piso'],
-                'numero' => $registro['numeroIdentificador']
-            ];
-        }
+        return $apartamentos;
     }
 
-    return $propietarios;
-}
-public function cambiarClave() {
+    public function consultarSaldo() {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $PDAO = new PropietarioDAO($this->id);
+        $conexion->ejecutar($PDAO->consultarSaldo());
+        $datos = $conexion->registro();
+        if ($datos != null) {
+            $this->saldo = $datos[0];
+        }
+        $conexion->cerrar();
+    }
+
+    public function consultarProp() {
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $PDAO = new PropietarioDAO();
+        $conexion->ejecutar($PDAO->consultarProp());
+        $datos = [];
+        while (($fila = $conexion->registro()) != null) {
+            $datos[] = [
+                'id' => $fila[0],
+                'nombre' => $fila[1],
+                'apellido' => $fila[2],
+                'correo' => $fila[3],
+                'saldo' => $fila[4]
+            ];
+        }
+        $conexion->cerrar();
+        return $datos;
+    }
+
+    public function cambiarClave() {
         $conexion = new Conexion();
         $conexion->abrir();
         $PDAO = new PropietarioDAO($this->id, "", "", "", $this->clave, "", "");

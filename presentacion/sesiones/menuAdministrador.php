@@ -27,7 +27,7 @@ $admin->consultar();
 							Propietarios
 						</a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="?pid=<?= base64_encode("presentacion/sesiones/consultarPropietario.php") ?>">Consultar</a></li>
+							<li><a class="dropdown-item" href="?pid=<?= base64_encode("presentacion/propietario/consultarPropietario.php") ?>">Consultar</a></li>
 						</ul>
 					</li>
 

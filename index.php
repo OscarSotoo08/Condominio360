@@ -17,7 +17,7 @@ $paginasSinSesion = [
 $paginasConSesion = [
     "presentacion/sesiones/sesionAdministrador.php",
     "presentacion/sesiones/sesionPropietario.php",
-    "presentacion/sesiones/consultarPropietario.php",
+    "presentacion/propietario/consultarPropietario.php",
     "presentacion/sesiones/misApartamentos.php",
     "presentacion/acceso/cambiarClave.php",
 ];
@@ -32,6 +32,7 @@ $paginasConSesion = [
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <link href="https://use.fontawesome.com/releases/v5.11.1/css/all.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/14596e32cc.js" crossorigin="anonymous"></script>
 <title>Condominio - 360</title>
 <link rel="shortcut icon" href="img/logo.png" type="image/x-icon">

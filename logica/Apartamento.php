@@ -6,11 +6,12 @@ class Apartamento{
     private $piso;
     private $propietario;
 
-    public function __construct($idApartamento = "", $numero_identificador = "", $torre = "", $piso = "") {
+    public function __construct($idApartamento = "", $numero_identificador = "", $torre = "", $piso = "", $propietario = null)  {
         $this->idApartamento = $idApartamento;
         $this->numero_identificador = $numero_identificador;
         $this->torre = $torre;
         $this->piso = $piso;
+        $this->propietario = $propietario;
     }
 
     public function getIdApartamento(){
@@ -66,5 +67,22 @@ class Apartamento{
 
         $conexion->cerrar();
         return $apartamentos;
+    }
+
+    public function consultarSaldo(){
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "select sum(cc.monto)\n"
+
+    . "from cuentacobro as cc\n"
+
+    . "where cc.idApartamentoFK = '{$this->idApartamento}' and cc.estadoPago=0;";
+        $conexion->ejecutar($sql);
+        $datos = $conexion->registro();
+        if ($datos != null) {
+            return $datos[0]; // Retorna el saldo del propietario
+        }
+        $conexion->cerrar();
+        return null; // Si no se encuentra el propietario, retorna null
     }
 }
