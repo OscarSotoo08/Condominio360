@@ -50,14 +50,12 @@ class PropietarioDAO{
     public function cambiarClave(){
         return "update Propietario set clave = '{$this->clave}' where idPropietario = '{$this->id}'";
     }
-    
-    public function consultarApartamentos() {
-        return "SELECT idApartamento, numero_identificador, torre, piso
-                FROM apartamento
-                WHERE idPropietarioFK = '{$this->id}'";
-    }
 
-    public function consultarSaldo() {
+    public function consultarApartamentos(){
+        return "SELECT idApartamento, numero_identificador, torre, piso 
+                FROM Apartamento 
+                WHERE idPropietarioFK = '{$this->id}'"; 
     }
+    
 }
 

@@ -68,7 +68,19 @@ class Administrador extends Persona implements Usuario{
         $this -> correo = $datos[2];
         $conexion->cerrar();
     }
-
+    public function obtenerCuentasCobro() {
+    $conexion = new Conexion();
+    $conexion->abrir();
+    $dao = new CuentaCobroDAO($this->id, "", "", "", "", "", $conexion);
+    $sql = $dao->consultarTodas();
+    $conexion->ejecutar($sql);
+    $cuentas = [];
+    while ($fila = $conexion->registro()) {
+        $cuentas[] = $fila;
+    }
+    $conexion->cerrar();
+    return $cuentas;
+}
     /**
      * @inheritDoc
      */

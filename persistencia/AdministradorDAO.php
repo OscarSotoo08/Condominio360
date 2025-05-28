@@ -45,6 +45,5 @@ class AdministradorDAO{
     public function cambiarClave(){
         return "update Administrador set clave = '{$this->clave}' where idAdministrador = '{$this->id}'";
     }
-}
-  
+} 
 
