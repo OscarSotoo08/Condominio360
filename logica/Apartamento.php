@@ -75,4 +75,21 @@ class Apartamento{
         $conexion->cerrar();
         return $apartamentos;
     }
+
+    public function consultarSaldo(){
+        $conexion = new Conexion();
+        $conexion->abrir();
+        $sql = "select sum(cc.monto)\n"
+
+    . "from cuentacobro as cc\n"
+
+    . "where cc.idApartamentoFK = '{$this->idApartamento}' and cc.estadoPago=0;";
+        $conexion->ejecutar($sql);
+        $datos = $conexion->registro();
+        if ($datos != null) {
+            return $datos[0]; // Retorna el saldo del propietario
+        }
+        $conexion->cerrar();
+        return null; // Si no se encuentra el propietario, retorna null
+    }
 }

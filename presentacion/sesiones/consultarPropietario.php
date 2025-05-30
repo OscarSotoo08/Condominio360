@@ -8,9 +8,9 @@ if (!isset($_SESSION['rol']) || $_SESSION['rol'] !== 'administrador') {
 }
 include ("presentacion/sesiones/encabezado.php");
 include ("presentacion/sesiones/menuAdministrador.php");
-require_once "persistencia/PropietarioDAO.php";
-$propietarioDAO = new PropietarioDAO();
-$listaPropietarios = $propietarioDAO->consultarProp();
+
+$propietario = new Propietario();
+$listaPropietarios = $propietario->consultarProp();
 ?>
 
 <div class="container mt-4">

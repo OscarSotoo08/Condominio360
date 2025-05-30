@@ -29,42 +29,9 @@ class PropietarioDAO{
     }
 
     public function consultarProp() {
-        $lista = [];
-        $conexion = new Conexion();
-        $conexion->abrir();
-
-        $sql = "SELECT 
-                    p.idPropietario AS id, 
-                    p.nombre, 
-                    p.apellido, 
-                    p.correo, 
-                    p.saldo,
-                    GROUP_CONCAT(CONCAT('Torre ', a.torre, ', Piso ', a.piso, ', N° ', a.numero_identificador) SEPARATOR '; ') AS apartamentos
-                FROM 
-                    Propietario p
-                LEFT JOIN 
-                    Apartamento a ON p.idPropietario = a.idPropietarioFK
-                GROUP BY
-                    p.idPropietario
-                ORDER BY 
-                    p.apellido, p.nombre";
-
-        $conexion->ejecutar($sql);
-        $resultado = $conexion->getResultado();
-
-        while ($fila = $resultado->fetch_assoc()) {
-            $lista[] = [
-                'id' => $fila['id'],
-                'nombre' => $fila['nombre'],
-                'apellido' => $fila['apellido'],
-                'correo' => $fila['correo'],
-                'saldo' => $fila['saldo'],
-                'apartamentos' => $fila['apartamentos'] ?? null
-            ];
-        }
-
-        $conexion->cerrar();
-        return $lista;
+        return "SELECT p.idPropietario AS id, p.nombre, p.apellido, p.correo, p.saldo
+                FROM Propietario p
+                ORDER BY id";   
     }
 
     public function verificarCorreo(){
@@ -83,6 +50,14 @@ class PropietarioDAO{
     public function cambiarClave(){
         return "update Propietario set clave = '{$this->clave}' where idPropietario = '{$this->id}'";
     }
+
+    public function consultarApartamentos(){
+        return "SELECT idApartamento, numero_identificador, torre, piso 
+                FROM Apartamento 
+                WHERE idPropietarioFK = '{$this->id}'"; 
+    }
+
+    
     
 }
     

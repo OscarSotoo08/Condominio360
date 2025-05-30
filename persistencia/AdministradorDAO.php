@@ -21,7 +21,7 @@ class AdministradorDAO{
     public function autenticarse(){
         return "select idAdministrador
                 from Administrador 
-                where correo = '" . $this -> correo . "' and clave = '" . md5($this -> clave) . "'";
+                where correo = '" . $this -> correo . "' and clave = '" . $this -> clave. "'";
     }
     
     public function consultar(){
@@ -45,5 +45,5 @@ class AdministradorDAO{
     public function cambiarClave(){
         return "update Administrador set clave = '{$this->clave}' where idAdministrador = '{$this->id}'";
     }
-}
-  
+} 
+

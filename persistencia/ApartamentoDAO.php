@@ -30,9 +30,6 @@ class ApartamentoDAO {
 
         $resultados = [];
         while ($fila = $conexion->registro()) {
-            // $fila[0] = torre_apartamento
-            // $fila[1] = piso_apartamento
-            // $fila[2] = numero_identificador
             $a = new Apartamento("", $fila[0], $fila[1], $fila[2], $propietario);
             $resultados[] = $a;
         }
@@ -42,4 +39,3 @@ class ApartamentoDAO {
         return $resultados;
     }
 }
-
