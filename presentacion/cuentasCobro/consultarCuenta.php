@@ -57,8 +57,29 @@ switch ($rol) {
         exit("Rol no reconocido");
 }
 ?>
+
 <div class="container mt-4">
-  <h4 class="mb-3">Cuentas de cobro registradas</h4>
+  <div id="alerta"></div>
+  <div class="d-flex justify-content-between mb-3">
+    <h4><?= $titulo ?></h4>
+    <div class="row">
+      <div class="col-8">
+        <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Buscar">
+      </div>
+      <div class="col-4">
+        <select name="filtro" id="filtroSelect" class="form-select form-select-lg">
+          <option value="">Todos</option>
+          <option value="pagado">Pagado</option>
+          <option value="pendiente">Pendiente</option>
+        </select>
+      </div>
+    </div>
+    <?php if ($rol === 'administrador'): ?>
+    <a href="#" class="btn btn-primary" id="crearCuentaCobro">
+      <i class="fa-solid fa-money-check"></i> Generar cuentas de cobro
+    </a>
+    <?php endif; ?>
+  </div>
   <div class="table-responsive">
     <table class="table table-bordered table-hover align-middle text-center">
       <thead class="table-light">
@@ -74,7 +95,7 @@ switch ($rol) {
           <th>Estado</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody id="cuentasTableBody">
         <?php if (!empty($cuentas)): ?>
           <?php foreach ($cuentas as $cuenta): ?>
             <tr>
@@ -104,3 +125,27 @@ switch ($rol) {
     </table>
   </div>
 </div>
+
+<script> 
+  $(document).ready(function(){
+    $("#crearCuentaCobro").click(function(){
+      $.ajax({
+        url: "indexAjax.php",
+        data: { 
+          pid: '<?= base64_encode("presentacion/cuentasCobro/crearCuenta.php") ?>',
+          idAdmin: '<?= base64_encode($id) ?>'
+        },
+        type: "GET",
+        success: function(response) {
+          // Aquí puedes manejar la respuesta del servidor
+          console.log(response);
+          $("#cuentasTableBody").html(response.cuentas);
+          $("#alerta").html(response.mensaje);
+        },
+        error: function() {
+          alert("Error al cargar el formulario de creación de cuenta.");
+        }
+      });
+    });
+  })
+</script>

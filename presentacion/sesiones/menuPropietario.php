@@ -27,7 +27,7 @@ $propietario->consultar();
 					</li>
 
 					<li class="nav-item">
-						<a class="nav-link text-dark" href="?pid=<?php echo base64_encode("presentacion/sesiones/consultarCuenta.php") ?>">Cuentas de Cobro</a>
+						<a class="nav-link text-dark" href="?pid=<?php echo base64_encode("presentacion/cuentasCobro/consultarCuenta.php") ?>">Cuentas de Cobro</a>
 					</li>
 
 					<li class="nav-item">

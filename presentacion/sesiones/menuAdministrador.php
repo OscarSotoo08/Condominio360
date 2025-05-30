@@ -31,14 +31,10 @@ $admin->consultar();
 						</ul>
 					</li>
 
-					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<li class="nav-item">
+						<a class="nav-link text-dark" href="?pid=<?php echo base64_encode("presentacion/cuentasCobro/consultarCuenta.php") ?>">
 							Cuentas de Cobro
 						</a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/sesiones/consultarCuenta.php") ?>">Consultar</a></li>
-							<li><a class="dropdown-item" href="?pid=<?php echo base64_encode("presentacion/sesiones/crearCuenta.php") ?>">Crear</a></li>
-						</ul>
 					</li>
 
 					<li class="nav-item">

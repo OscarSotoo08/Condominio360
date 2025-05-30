@@ -36,7 +36,6 @@ $idPropietario = "";
                 <th>Correo</th>
                 <th>Saldo</th>
                 <th>Apartamento(s)</th>
-                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>

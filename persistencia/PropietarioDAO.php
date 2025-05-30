@@ -56,6 +56,8 @@ class PropietarioDAO{
                 FROM Apartamento 
                 WHERE idPropietarioFK = '{$this->id}'"; 
     }
+
+    
     
 }
 

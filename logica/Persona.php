@@ -18,10 +18,6 @@ abstract class Persona{
         $this->correo = $correo;
         $this->clave = $clave;
     }
-
-
-
-
     public function getId(){
         return $this->id;
     }

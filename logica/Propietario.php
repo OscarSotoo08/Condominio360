@@ -79,18 +79,6 @@ class Propietario extends Persona implements Usuario {
         return $apartamentos;
     }
 
-    public function consultarSaldo() {
-        $conexion = new Conexion();
-        $conexion->abrir();
-        $PDAO = new PropietarioDAO($this->id);
-        $conexion->ejecutar($PDAO->consultarSaldo());
-        $datos = $conexion->registro();
-        if ($datos != null) {
-            $this->saldo = $datos[0];
-        }
-        $conexion->cerrar();
-    }
-
     public function consultarProp() {
         $conexion = new Conexion();
         $conexion->abrir();
