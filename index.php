@@ -1,8 +1,12 @@
 <?php
 if(PHP_SESSION_NONE == session_status()) session_start();
 
-require_once "logica/Administrador.php";
-require_once "logica/Propietario.php";
+$dir = "logica";
+foreach (scandir($dir) as $file) {
+    if ($file === '.' || $file === '..') continue;
+    $path = $dir . DIRECTORY_SEPARATOR . $file;
+    if (is_file($path)) require_once $path;        
+}
 
 if(isset($_GET["cerrarSesion"])){
     session_destroy();

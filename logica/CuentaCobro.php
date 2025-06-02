@@ -26,35 +26,40 @@ class CuentaCobro{
         $this ->propietario = $propietario;
     }
     
-    public function consultarCuentas(){
+    public function consultarCuentas($idPropietario = null): array{
         $conexion = new Conexion();
         $conexion->abrir();
         $cuentas = array();
         $cuentaDAO = new CuentaCobroDAO();
-        $conexion->ejecutar($cuentaDAO->consultarCuentas());
+        $conexion->ejecutar($cuentaDAO->consultarCuentas($idPropietario));
         while ($fila = $conexion->registro()) {
             // Crear instancias de las clases relacionadas
             $apto = new Apartamento(
-                idApartamento: $fila['1'],
-                numero_identificador: $fila['8'],
-                torre: $fila['7'],
-                piso: $fila['9']
+                idApartamento: $fila['0'],
+                numero_identificador: $fila['1'],
+                torre: $fila['2'],
+                piso: $fila['3']
             );
             $concepto = new Concepto(
-                idConcepto: $fila['2'],
-                concepto: $fila['12']
+                idConcepto: $fila['4'],
+                concepto: $fila['5']
             );
             $propietario = new Propietario(
-                id: $fila['10'],
-                nombre: $fila['11'],
-                apellido: $fila['12']
+                id: $fila['6'],
+                nombre: $fila['7'],
+                apellido: $fila['8']
             );
+            $estado = new EstadoPago(
+                id: $fila['9'],
+                nombre: $fila['10']
+            );
+
             $cuenta = new CuentaCobro(
-                idCuentaCobro: $fila['0'],
-                monto: $fila['3'],
-                fechaGeneracion: $fila['4'],
-                fechaVencimiento: $fila['5'],
-                estadoPago: $fila['6'],
+                idCuentaCobro: $fila['11'],
+                monto: $fila['12'],
+                fechaGeneracion: $fila['13'],
+                fechaVencimiento: $fila['14'],
+                estadoPago: $estado,
                 apartamento: $apto,
                 concepto: $concepto,
                 propietario: $propietario

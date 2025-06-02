@@ -1,8 +1,9 @@
 <?php 
-require_once "logica/Apartamento.php";
-require_once "logica/Administrador.php";
-require_once "logica/Propietario.php";
-require_once "logica/CuentaCobro.php";
-require_once "logica/Concepto.php";
+$dir = "logica";
+foreach (scandir($dir) as $file) {
+    if ($file === '.' || $file === '..') continue;
+    $path = $dir . DIRECTORY_SEPARATOR . $file;
+    if (is_file($path)) require_once $path;        
+}
 
 include base64_decode($_GET["pid"]);

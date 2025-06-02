@@ -12,49 +12,26 @@ $id  = $_SESSION['id'];
 $rol = $_SESSION['rol'];
 
 $conexion = new Conexion();
-$cuentaDAO = new CuentaCobroDAO();
+$objCuenta = new CuentaCobro();
+$cuentas = [];
 
 switch ($rol) {
     case 'administrador':
-        include("presentacion/sesiones/encabezado.php");
-        include("presentacion/sesiones/menuAdministrador.php");
-
+        include "presentacion/sesiones/encabezado.php";
+        include "presentacion/sesiones/menuAdministrador.php";
         $usuario = new Administrador($id);
         $usuario->consultar();
-
-        $conexion->abrir();
-        $conexion->ejecutar($cuentaDAO->consultarTodas());
-        $cuentas = [];
-        $resultado = $conexion->getResultado();
-        while ($registro = $resultado->fetch_assoc()) {
-            $cuentas[] = $registro;
-        }
-        $conexion->cerrar();
-
+        $cuentas = $objCuenta->consultarCuentas();
         $titulo = "Cuentas de cobro registradas";
         break;
-
     case 'propietario':
-        include("presentacion/sesiones/encabezado.php");
-        include("presentacion/sesiones/menuPropietario.php");
-
+        include "presentacion/sesiones/encabezado.php";
+        include "presentacion/sesiones/menuPropietario.php";
         $usuario = new Propietario($id);
         $usuario->consultar();
-
-        $conexion->abrir();
-        $conexion->ejecutar($cuentaDAO->consultarPorPropietario($id));
-        $cuentas = [];
-        $resultado = $conexion->getResultado();
-        while ($registro = $resultado->fetch_assoc()) {
-            $cuentas[] = $registro;
-        }
-        $conexion->cerrar();
-
-        $titulo = "Mis cuentas de cobro";
+        $cuentas = $objCuenta->consultarCuentas($id);
+        $titulo = "Cuentas de cobro registradas";
         break;
-
-    default:
-        exit("Rol no reconocido");
 }
 ?>
 
@@ -76,18 +53,18 @@ switch ($rol) {
     </div>
     <?php if ($rol === 'administrador'): ?>
     <a href="#" class="btn btn-primary" id="crearCuentaCobro">
-      <i class="fa-solid fa-money-check"></i> Generar cuentas de cobro
+      <i class="fa-solid fa-money-check"></i> Generar cuentas por administracion
     </a>
     <?php endif; ?>
   </div>
   <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle text-center">
-      <thead class="table-light">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light text-center">
         <tr>
+          <th>ID</th>
           <?php if ($_SESSION['rol'] === 'administrador'): ?>
             <th>Propietario</th>
           <?php endif; ?>
-          <th>ID</th>
           <th>Apartamento</th>
           <th>Fecha</th>
           <th>Concepto</th>
@@ -99,20 +76,24 @@ switch ($rol) {
         <?php if (!empty($cuentas)): ?>
           <?php foreach ($cuentas as $cuenta): ?>
             <tr>
+              <td class="text-center"><?= htmlspecialchars($cuenta -> getIdCuentaCobro()) ?></td>
               <?php if ($_SESSION['rol'] === 'administrador'): ?>
-                <td><?= htmlspecialchars($cuenta['nombre'] . ' ' . $cuenta['apellido']) ?></td>
+                <td><?= htmlspecialchars($cuenta -> getPropietario() -> getNombre() . ' ' . $cuenta -> getPropietario() -> getApellido()) ?></td>
               <?php endif; ?>
-              <td><?= htmlspecialchars($cuenta['idCuentaCobro']) ?></td>
-              <td><?= htmlspecialchars(" {$cuenta['torre']} - Piso {$cuenta['piso']} - Apt {$cuenta['numero_identificador']}") ?></td>
-              <td><?= htmlspecialchars($cuenta['fechaGeneracion']) ?></td>
-              <td><?= htmlspecialchars($cuenta['concepto']) ?></td>
-              <td>$<?= number_format($cuenta['monto'], 2) ?></td>
+              <td><?= htmlspecialchars(" {$cuenta -> getApartamento() -> getTorre()} - Piso {$cuenta -> getApartamento() -> getPiso()} - Apt {$cuenta -> getApartamento() -> getNumeroIdentificador()}") ?></td>
+              <td class="text-center"><?= htmlspecialchars($cuenta -> getFechaGeneracion()) ?></td>
+              <td><?= htmlspecialchars($cuenta -> getConcepto() -> getConcepto()) ?></td>
+              <td class="text-center">$<?= number_format($cuenta -> getMonto(), 2) ?></td>
               <td>
-                <?php if ($cuenta['estadoPago'] == 1): ?>
-                  <span class="badge bg-success">Pagado</span>
-                <?php else: ?>
-                  <span class="badge bg-danger">Pendiente</span>
-                <?php endif; ?>
+                <?php 
+                  $bg = "bg-success";
+                  if($cuenta -> getEstadoPago() -> getId() == "3"){
+                      $bg = "bg-danger";
+                  }else if($cuenta -> getEstadoPago() -> getId() == "2"){
+                      $bg = "bg-warning";
+                  }
+                ?>
+                  <span class="badge <?= $bg ?>"><?= $cuenta -> getEstadoPago() -> getNombre() ?></span>
               </td>
             </tr>
           <?php endforeach; ?>
@@ -132,7 +113,7 @@ switch ($rol) {
       $.ajax({
         url: "indexAjax.php",
         data: { 
-          pid: '<?= base64_encode("presentacion/cuentasCobro/crearCuenta.php") ?>',
+          pid: '<?= base64_encode("presentacion/cuentasCobro/generarCuenta.php") ?>',
           idAdmin: '<?= base64_encode($id) ?>'
         },
         type: "GET",

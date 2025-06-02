@@ -100,19 +100,19 @@ class CuentaCobroDAO {
     }
 
     public function cuentasActuales(){
-        return "SELECT cc.idCuentaCobro FROM `cuentacobro` as cc WHERE cc.fechaGeneracion >= CURRENT_DATE;";
+        return "SELECT cc.idCuentaCobro FROM cuentacobro AS cc WHERE cc.fechaGeneracion BETWEEN DATE_FORMAT(CURDATE(), '%Y-%m-01') AND LAST_DAY(CURDATE());";
     }
 
 
     public function consultarCuentas($idPropietario = null) {
-        $sql = "select cc.idCuentaCobro as idCC, cc.idApartamentoFK as idApto, cc.idConceptoFK as idCon, cc.monto as monto, cc.fechaGeneracion as fechaIni, cc.fechaVencimiento as fechaFin, cc.estadoPago as estado, apt.torre as torre, apt.numero_identificador as nId, apt.piso as piso, prop.nombre as nombreProp, prop.apellido as apellido, con.concepto as con from cuentacobro as cc join apartamento as apt on apt.idApartamento = cc.idApartamentoFK join propietario as prop on prop.idPropietario = apt.idPropietarioFK join concepto as con on con.idConcepto = cc.idConceptoFK ";
+        $sql = "select apt.idApartamento, apt.numero_identificador, apt.torre, apt.piso, con.idConcepto, con.concepto, prop.idPropietario, prop.nombre, prop.apellido, est.idEstadoPago, est.nombre, cc.idCuentaCobro, cc.monto, cc.fechaGeneracion, cc.fechaVencimiento from cuentacobro as cc join apartamento as apt on apt.idApartamento = cc.idApartamentoFK join propietario as prop on prop.idPropietario = apt.idPropietarioFK join concepto as con on con.idConcepto = cc.idConceptoFK join estadopago as est on est.idEstadoPago = cc.EstadoPago_idEstadoPago ";
         $sql .= $idPropietario !== null ? " WHERE idPropietarioFK = $idPropietario" : "";
-        $sql .= " ORDER BY fechaIni DESC";
+        $sql .= " ORDER BY cc.idCuentaCobro ASC";
         return $sql;
     }
 
     public function generarCuentas(){
-        return "INSERT INTO cuentacobro (idApartamentoFK, idAdministradorFK, idConceptoFK,monto, fechaGeneracion, fechaVencimiento,estadoPago, fechaPago) SELECT a.idApartamento, {$this->idAdmin}, 1, a.monto_administracion, CURRENT_DATE, LAST_DAY(NOW()), 0, NULL FROM apartamento AS a;";
+        return "INSERT INTO cuentacobro (idApartamentoFK, idAdministradorFK, idConceptoFK, monto, fechaGeneracion, fechaVencimiento, fechaPago, EstadoPago_idEstadoPago) SELECT a.idApartamento, {$this -> idAdmin}, 1, a.valorAdministracion, CURRENT_DATE, LAST_DAY(NOW()), NULL, 3 FROM apartamento as a;";
     }
 }
     
